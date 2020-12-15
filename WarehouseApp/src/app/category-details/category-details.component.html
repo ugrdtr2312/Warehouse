@@ -1,0 +1,32 @@
+<div class="jumbotron py-3">
+  <h1 class="display-4 text-center">Category Detail</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <input type="search" class="form-control form-control-lg" placeholder="Search..."  [(ngModel)]=categoryName><br>
+        <table class="table">
+            <thead class="thead-light"> 
+                <tr>
+                    <th scope="col" [appSort]="service.list" data-order="desc" data-name="id">Id</th>
+                    <th scope="col" [appSort]="service.list" data-order="desc" data-name="categoryName">Category Name</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ct of service.list | filter: categoryName">
+                    <td (click)="populateForm(ct)">{{ct.id}}</td>
+                    <td (click)="populateForm(ct)">{{ct.categoryName}}</td>
+                    <td>
+                        <i class="far fa-trash-alt fa-lg text-danger" (click)="onDelete(ct.id)"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <app-category-detail-form></app-category-detail-form>
+    </div>
+</div>
+

@@ -1,0 +1,31 @@
+<div class="jumbotron py-3">
+  <h1 class="display-4 text-center">Product Detail</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <input type="search" class="form-control form-control-lg" placeholder="Search..."  [(ngModel)]=descrip><br>
+        <table class="table">
+            <thead class="thead-light"> 
+                <tr>
+                    <th scope="col" [appSort]="service.list" data-order="desc" data-name="id">Id</th>
+                    <th scope="col" [appSort]="service.list" data-order="desc" data-name="description">Description</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pd of service.list | filter: descrip">
+                    <td (click)="populateForm(pd)">{{pd.id}}</td>
+                    <td (click)="populateForm(pd)">{{pd.description}}</td>
+                    <td>
+                        <i class="far fa-trash-alt fa-lg text-danger" (click)="onDelete(pd.id)"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <app-product-detail-form></app-product-detail-form>
+    </div>
+</div>
+
