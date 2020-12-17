@@ -1,104 +1,142 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using DAL.Entities;
-using DAL.Interfaces;
-using Microsoft.AspNetCore.JsonPatch;
+﻿using System.Threading.Tasks;
+using BLL.DTOs;
+using BLL.Exceptions;
+using BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    // api/tasks
+    /// <summary>
+    /// <c>CategoriesController</c> is a class.
+    /// Contains all http methods for working with categories.
+    /// </summary>
+    /// <remarks>
+    /// This class can get, create, delete, edit category.
+    /// </remarks>
+    
+    // api/categories
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly IUoW _uow;
-        // private readonly IMapper _mapper;
+        private readonly ICategoryService _categoryService;
 
-        //GET api/tasks
-        public CategoriesController(IUoW uow) //, IMapper mapper)
+        public CategoriesController(ICategoryService categoryService)
         {
-            _uow = uow;
-            // _mapper = mapper;
+            _categoryService = categoryService;
         }
+       
+        
+        /// <summary>
+        /// This method returns all categories
+        /// </summary>
+        /// <response code="200">Returns all categories</response>
 
+        //GET api/categories
         [HttpGet]
-        public async Task<IActionResult> GetAllTasks()
+        public async Task<IActionResult> GetAllCategories()
         {
-            var categories = await _uow.CategoryRepository.GetAllAsync();
-
+            var categories = await _categoryService.GetAllAsync();
             return Ok(categories);
         }
 
-        /*//GET api/tasks/{id}
-        [HttpGet("{id}", Name = "GetTaskById")]
-        public async Task<IActionResult> GetTaskById(int id)
+        
+        /// <summary>
+        /// This method returns category that has an inputted Id property
+        /// </summary>
+        /// <response code="200">Returns category that has an inputted Id property</response>
+        /// <response code="404">Returns message that nothing was found, if nothing returned than id inputted incorrectly</response>
+        
+        //GET api/categories/{id}
+        [HttpGet("{id:int}", Name = "GetCategoryById")]
+        public async Task<IActionResult> GetCategoryById(int id)
         {
-            var task = await _uow.TaskRepository.GetByIdAsync(id);
-
-            if (task == null)
-                return NotFound();
-            
-            return Ok(_mapper.Map<TaskDTO>(task));
-        }*/
-
-        //POST api/tasks
-        [HttpPost]
-        public async Task<IActionResult> CreateTask([FromBody] Category category)
-        {
-            //map
-            Console.WriteLine(category.CategoryName);
-            await _uow.CategoryRepository.CreateAsync(category);
-            await _uow.SaveChangesAsync();
-
-            Console.WriteLine(category.Id);
-            //Fetch the task from data source, including the employee
-            await _uow.CategoryRepository.GetByIdAsync(category.Id);
-            return Ok();
-            return CreatedAtRoute("GetTaskById", new {id = category.Id}, category);
-        }
-
-
-        /*//PATCH api/tasks/id
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] JsonPatchDocument<Category> patchDoc)
-        {
-            Console.Write("loh");
-            var taskFromRepo = await _uow.CategoryRepository.GetByIdAsync(id);
-            if (taskFromRepo == null)
-                return NotFound();
-            
-            patchDoc.ApplyTo(taskFromRepo, ModelState);
-            if (await _uow.SaveChangesAsync())
-                return Ok(taskFromRepo);
-            else return BadRequest("zalupa");
-        }*/
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, Category category)
-        {
-            var taskFromRepo = await _uow.CategoryRepository.GetByIdAsync(id);
-            if (taskFromRepo == null)
-                return NotFound();
-
-            _uow.CategoryRepository.Update(category);
-            await _uow.SaveChangesAsync();
-            return NoContent(); 
+            try
+            {
+                var category = await _categoryService.GetByIdAsync(id);
+                return Ok(category);
+            }
+            catch (DbQueryResultNullException e)
+            {
+                return NotFound(e.Message);
+            }
         }
         
+        
+        /// <summary>
+        /// This method returns category that was created and path to it
+        /// </summary>
+        /// <response code="201">Returns category that was created and path to it</response>
+        /// <response code="400">Returns message why model is invalid</response>
+        /// <response code="404">Returns message if something had gone wrong</response>
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategory(int id)
+        //POST api/categories 
+        [HttpPost]
+        public async Task<IActionResult> CreateTask(CategoryDto category)
         {
-            var categoryToDelete = await _uow.CategoryRepository.GetByIdAsync(id);
-            if (categoryToDelete == null)
-                return NotFound(); 
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+               
+                var createdCategory = await _categoryService.CreateAsync(category);
             
-            _uow.CategoryRepository.Remove(categoryToDelete);
-            await _uow.SaveChangesAsync();
-            
-            return NoContent();
+                //Fetch the task from data source, including the category
+                return CreatedAtRoute("GetCategoryById", new {id = createdCategory.Id}, createdCategory);
+            }
+            catch (DbQueryResultNullException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+        
+        
+        /// <summary>
+        /// This method changes category
+        /// </summary>
+        /// <response code="204">Returns nothing, category was successfully changed</response>
+        /// <response code="404">Returns message that category was not found, if nothing returned than id inputted incorrectly</response>
+        
+        //PUT api/categories
+        [HttpPut]
+        public IActionResult UpdateCategory(CategoryDto categoryDto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+                if (categoryDto.Id == 0)
+                    return BadRequest("The Id wasn't inputted");
+                
+                _categoryService.Update(categoryDto);
+                return NoContent();
+            }
+            catch (DbQueryResultNullException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+        
+        
+        /// <summary>
+        /// This method deletes category
+        /// </summary>
+        /// <response code="204">Returns nothing, category was successfully deleted</response>
+        /// <response code="404">Returns message that category was not found</response>
+        
+        //DELETE api/categories/{id}
+        [HttpDelete("{id:int}")]
+        public IActionResult DeleteCategory(int id)
+        {
+            try
+            {
+                _categoryService.Remove(id);
+                return NoContent();
+            }
+            catch (DbQueryResultNullException e)
+            {
+                return NotFound(e.Message);
+            }
         }
     }
 }

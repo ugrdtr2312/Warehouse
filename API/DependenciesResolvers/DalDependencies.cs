@@ -2,6 +2,7 @@
 using DAL.Interfaces;
 using DAL.Repositories.Interfaces;
 using DAL.Repositories.Realizations;
+using DAL.Repositories.RealizationsWithIncludes;
 using DAL.UoWs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,7 +22,7 @@ namespace API.DependenciesResolvers
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IBrandRepository, BrandRepository>();
-            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductRepository, ProductRepositoryWithIncludes>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
         }
     }

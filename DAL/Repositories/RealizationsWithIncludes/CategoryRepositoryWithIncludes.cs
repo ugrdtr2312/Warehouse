@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories.RealizationsWithIncludes
 {
-    public class CategoryRepository : GenericRepositoryWithIncludes<Category>, ICategoryRepository
+    public class CategoryRepositoryWithIncludes : GenericRepositoryWithIncludes<Category>, ICategoryRepository
     {
-        public CategoryRepository(DbContext context) : base(context)
+        public CategoryRepositoryWithIncludes(DbContext context) : base(context)
         {
         }
 

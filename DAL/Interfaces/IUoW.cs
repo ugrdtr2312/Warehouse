@@ -6,10 +6,10 @@ namespace DAL.Interfaces
 {
     public interface IUoW : IDisposable
     {
-        IBrandRepository BrandRepository { get; }
-        ICategoryRepository CategoryRepository { get; }
-        IProductRepository ProductRepository { get; }
-        ISupplierRepository SupplierRepository { get; }
+        IBrandRepository Brands { get; }
+        ICategoryRepository Categories { get; }
+        IProductRepository Products { get; }
+        ISupplierRepository Suppliers { get; }
 
         Task<bool> SaveChangesAsync();
     }

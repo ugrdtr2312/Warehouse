@@ -9,14 +9,20 @@
             <thead class="thead-light"> 
                 <tr>
                     <th scope="col" [appSort]="service.list" data-order="desc" data-name="id">Id</th>
-                    <th scope="col" [appSort]="service.list" data-order="desc" data-name="description">Description</th>
+                    <th scope="col" [appSort]="service.list" data-order="desc" data-name="productName">Description</th>
+                    <th scope="col" [appSort]="service.list" data-order="desc" data-name="brandName">Brand</th>
+                    <th scope="col" [appSort]="service.list" data-order="desc" data-name="amount">Amount</th>
+                    <th scope="col" [appSort]="service.list" data-order="desc" data-name="price">Price</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let pd of service.list | filter: descrip">
                     <td (click)="populateForm(pd)">{{pd.id}}</td>
-                    <td (click)="populateForm(pd)">{{pd.description}}</td>
+                    <td (click)="populateForm(pd)">{{pd.productName}}</td>
+                    <td (click)="populateForm(pd)">{{pd.brandName}}</td>
+                    <td (click)="populateForm(pd)">{{pd.amount}}</td>
+                    <td (click)="populateForm(pd)">{{pd.price}}</td>
                     <td>
                         <i class="far fa-trash-alt fa-lg text-danger" (click)="onDelete(pd.id)"></i>
                     </td>

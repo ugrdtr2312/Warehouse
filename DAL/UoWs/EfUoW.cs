@@ -14,16 +14,16 @@ namespace DAL.UoWs
             IProductRepository productRepository, ISupplierRepository supplierRepository)
         {
             _context = context;
-            BrandRepository = brandRepository;
-            CategoryRepository = categoryRepository;
-            ProductRepository = productRepository;
-            SupplierRepository = supplierRepository;
+            Brands = brandRepository;
+            Categories = categoryRepository;
+            Products = productRepository;
+            Suppliers = supplierRepository;
         }
        
-        public IBrandRepository BrandRepository { get; }
-        public ICategoryRepository CategoryRepository { get; }
-        public IProductRepository ProductRepository { get; }
-        public ISupplierRepository SupplierRepository { get; }
+        public IBrandRepository Brands { get; }
+        public ICategoryRepository Categories { get; }
+        public IProductRepository Products { get; }
+        public ISupplierRepository Suppliers { get; }
        
         private bool _disposed;
         protected virtual void Dispose(bool disposing)

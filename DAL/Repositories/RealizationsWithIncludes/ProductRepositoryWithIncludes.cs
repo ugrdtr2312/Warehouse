@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories.RealizationsWithIncludes
 {
-    public class ProductRepository : GenericRepositoryWithIncludes<Product>, IProductRepository
+    public class ProductRepositoryWithIncludes : GenericRepositoryWithIncludes<Product>, IProductRepository
     {
-        public ProductRepository(DbContext context) : base(context)
+        public ProductRepositoryWithIncludes(DbContext context) : base(context)
         {
         }
 

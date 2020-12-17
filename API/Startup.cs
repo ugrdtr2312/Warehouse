@@ -1,4 +1,5 @@
 using API.DependenciesResolvers;
+using API.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,9 +20,14 @@ namespace API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers();
+            
             services.DalDependenciesResolver(Configuration);
-            //services.AddSwaggerGen();
+            services.BllDependenciesResolver();
+            services.AddSingleton(AutoMapperConfigure.CreateMapper());
+            
+            services.SwaggerConfigure();
+            
             services.AddCors();
         }
 
@@ -30,13 +36,13 @@ namespace API
         {
             app.UseCors(options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
             
-            /*app.UseSwagger(c => {c.SerializeAsV2 = true;});
+            app.UseSwagger(c => {c.SerializeAsV2 = true;});
             
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "WarehouseAPI");
                 c.RoutePrefix = string.Empty;
-            });*/
+            });
 
             app.UseRouting();
 
