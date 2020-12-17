@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.UoWs
 {
-    public class EfUoW : IUoW
+    public sealed class EfUoW : IUoW
     {
         private readonly DbContext _context;
 
@@ -26,7 +26,8 @@ namespace DAL.UoWs
         public ISupplierRepository Suppliers { get; }
        
         private bool _disposed;
-        protected virtual void Dispose(bool disposing)
+
+        private void Dispose(bool disposing)
         {
             if (!_disposed)
             {

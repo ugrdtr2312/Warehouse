@@ -38,10 +38,7 @@ namespace BLL.Services.Realizations
         }
 
         public async Task<BrandDto> CreateAsync(BrandDto brandDto)
-        {
-            if (brandDto == null)
-                throw new DbQueryResultNullException("Db query result to brands is null");
-
+        { 
             var brand = _mapper.Map<Brand>(brandDto);
             
             await _uow.Brands.CreateAsync(brand);
@@ -53,25 +50,28 @@ namespace BLL.Services.Realizations
 
         public void Update(BrandDto brandDto)
         {
-             /*if (brandDto == null)
-                 throw new DbQueryResultNullException("Db query result to brands is null");
-
-             var brand = _mapper.Map<Brand>(brandDto);
-             
-             _uow.Brands.Update(brand);
-             await _uow.SaveChangesAsync();*/
+            var brand =  _uow.Brands.GetByIdAsync(brandDto.Id).Result;
+            
+            if (brand == null)
+                throw new DbQueryResultNullException("There isn't such brand in db");
+            
+            brand = _mapper.Map<Brand>(brandDto);
+            
+            _uow.Brands.Update(brand);
+            if (!_uow.SaveChangesAsync().Result)
+                throw new DbQueryResultNullException("Changes to brands weren't produced");
         }
 
         public void Remove(int id)
         {
-            /*var brand =  await _uow.Brands.GetByIdAsync(id);
+            var brand = _uow.Brands.GetByIdAsync(id).Result;
             
             if (brand == null)
                 throw new DbQueryResultNullException("No record to remove from brands");
 
             _uow.Brands.Remove(brand);
-            if (!await _uow.SaveChangesAsync())
-                throw new DbQueryResultNullException("Changes to brands weren't produced");*/
+            if (!_uow.SaveChangesAsync().Result)
+                throw new DbQueryResultNullException("Changes to brands weren't produced");
         }
     }
 }

@@ -21,6 +21,7 @@ namespace API.Controllers
     {
         private readonly ICategoryService _categoryService;
 
+        
         public CategoriesController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
@@ -45,7 +46,7 @@ namespace API.Controllers
         /// This method returns category that has an inputted Id property
         /// </summary>
         /// <response code="200">Returns category that has an inputted Id property</response>
-        /// <response code="404">Returns message that nothing was found, if nothing returned than id inputted incorrectly</response>
+        /// <response code="404">Returns message that nothing was found, if message wasn't returned than id inputted incorrectly</response>
         
         //GET api/categories/{id}
         [HttpGet("{id:int}", Name = "GetCategoryById")]
@@ -72,16 +73,19 @@ namespace API.Controllers
 
         //POST api/categories 
         [HttpPost]
-        public async Task<IActionResult> CreateTask(CategoryDto category)
+        [ProducesResponseType(typeof(CategoryDto), 201)]
+        public async Task<IActionResult> CreateCategory(CategoryDto categoryDto)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
+                if (categoryDto.Id != 0)
+                    return BadRequest("The Id should be empty");
                
-                var createdCategory = await _categoryService.CreateAsync(category);
+                var createdCategory = await _categoryService.CreateAsync(categoryDto);
             
-                //Fetch the task from data source, including the category
+                //Fetch the category from data source
                 return CreatedAtRoute("GetCategoryById", new {id = createdCategory.Id}, createdCategory);
             }
             catch (DbQueryResultNullException e)
@@ -90,23 +94,23 @@ namespace API.Controllers
             }
         }
         
-        
+
         /// <summary>
         /// This method changes category
         /// </summary>
         /// <response code="204">Returns nothing, category was successfully changed</response>
-        /// <response code="404">Returns message that category was not found, if nothing returned than id inputted incorrectly</response>
+        /// <response code="400">Returns message why model is invalid</response>
+        /// <response code="404">Returns message that category was not found, if message wasn't returned than id inputted incorrectly</response>
         
         //PUT api/categories
         [HttpPut]
+        [ProducesResponseType(204)]
         public IActionResult UpdateCategory(CategoryDto categoryDto)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                if (categoryDto.Id == 0)
-                    return BadRequest("The Id wasn't inputted");
                 
                 _categoryService.Update(categoryDto);
                 return NoContent();
@@ -126,6 +130,7 @@ namespace API.Controllers
         
         //DELETE api/categories/{id}
         [HttpDelete("{id:int}")]
+        [ProducesResponseType(204)]
         public IActionResult DeleteCategory(int id)
         {
             try

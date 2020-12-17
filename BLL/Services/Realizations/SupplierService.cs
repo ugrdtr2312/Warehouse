@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using BLL.DTOs;
@@ -39,10 +38,7 @@ namespace BLL.Services.Realizations
         }
 
         public async Task<SupplierDto> CreateAsync(SupplierDto supplierDto)
-        {
-            if (supplierDto == null)
-                throw new DbQueryResultNullException("Db query result to suppliers is null");
-
+        { 
             var supplier = _mapper.Map<Supplier>(supplierDto);
             
             await _uow.Suppliers.CreateAsync(supplier);
@@ -54,25 +50,28 @@ namespace BLL.Services.Realizations
 
         public void Update(SupplierDto supplierDto)
         {
-            /*if (supplierDto == null)
-                throw new DbQueryResultNullException("Db query result to suppliers is null");
-
-            var supplier = _mapper.Map<Supplier>(supplierDto);
+            var supplier =  _uow.Suppliers.GetByIdAsync(supplierDto.Id).Result;
+            
+            if (supplier == null)
+                throw new DbQueryResultNullException("There isn't such supplier in db");
+            
+            supplier = _mapper.Map<Supplier>(supplierDto);
             
             _uow.Suppliers.Update(supplier);
-            await _uow.SaveChangesAsync();*/
+            if (!_uow.SaveChangesAsync().Result)
+                throw new DbQueryResultNullException("Changes to suppliers weren't produced");
         }
 
         public void Remove(int id)
         {
-            /*var supplier = await _uow.Suppliers.GetByIdAsync(id);
+            var supplier = _uow.Suppliers.GetByIdAsync(id).Result;
 
             if (supplier == null)
                 throw new DbQueryResultNullException("No record to remove from suppliers");
 
             _uow.Suppliers.Remove(supplier);
-            if (!await _uow.SaveChangesAsync())
-                throw new DbQueryResultNullException("Changes to suppliers weren't produced");*/
+            if (!_uow.SaveChangesAsync().Result)
+                throw new DbQueryResultNullException("Changes to suppliers weren't produced");
         }
     }
 }

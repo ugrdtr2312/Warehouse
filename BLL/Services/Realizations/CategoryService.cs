@@ -39,10 +39,7 @@ namespace BLL.Services.Realizations
 
         public async Task<CategoryDto> CreateAsync(CategoryDto categoryDto)
         {
-            if (categoryDto == null)
-                throw new DbQueryResultNullException("Category object from request is null");
-
-            var category = _mapper.Map<Category>(categoryDto);
+           var category = _mapper.Map<Category>(categoryDto);
             
             await _uow.Categories.CreateAsync(category);
             if (!await _uow.SaveChangesAsync())
@@ -53,10 +50,12 @@ namespace BLL.Services.Realizations
 
         public void Update(CategoryDto categoryDto)
         {
-            if (categoryDto == null)
-                throw new DbQueryResultNullException("Category object from request is null");
-
-            var category = _mapper.Map<Category>(categoryDto);
+            var category =  _uow.Categories.GetByIdAsync(categoryDto.Id).Result;
+            
+            if (category == null)
+                throw new DbQueryResultNullException("There isn't such category in db");
+            
+            category = _mapper.Map<Category>(categoryDto);
             
             _uow.Categories.Update(category);
             if (!_uow.SaveChangesAsync().Result)
@@ -65,12 +64,10 @@ namespace BLL.Services.Realizations
 
         public void Remove(int id)
         {
-            var category =   _uow.Categories.GetByIdAsync(id).Result;
+            var category = _uow.Categories.GetByIdAsync(id).Result;
             
             if (category == null)
-                throw new DbQueryResultNullException("Db query result to categories is null");
-            
-            category = _mapper.Map<Category>(category);
+                throw new DbQueryResultNullException("No record to remove from categories");
 
             _uow.Categories.Remove(category);
             if (!_uow.SaveChangesAsync().Result)

@@ -1,7 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-
-namespace DAL.Entities
+﻿namespace DAL.Entities
 {
     public class Product : BaseEntity
     {
