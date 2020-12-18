@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { CategoryDetail } from 'src/app/shared/category/category-detail.model';
-import { CategoryDetailService } from 'src/app/shared/category/category-detail.service';
+import { BrandDetail } from 'src/app/shared/brand/brand-detail.model';
+import { BrandDetailService } from 'src/app/shared/brand/brand-detail.service';
 
 @Component({
-  selector: 'app-category-detail-form',
-  templateUrl: './category-detail-form.component.html',
+  selector: 'app-brand-detail-form',
+  templateUrl: './brand-detail-form.component.html',
   styles: [
   ]
 })
-export class CategoryDetailFormComponent implements OnInit {
 
-  constructor(public service:CategoryDetailService, private toastr: ToastrService) { }
+export class BrandDetailFormComponent implements OnInit {
+
+  constructor(public service:BrandDetailService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -25,11 +26,11 @@ export class CategoryDetailFormComponent implements OnInit {
   }
 
   inserRecord(form: NgForm){
-    this.service.postCategoryDetails().subscribe(
+    this.service.postBrandDetails().subscribe(
       res => {
         this.resetForm(form);
         this.service.refreshList();
-        this.toastr.success('Submitted succesfully', "Category added")
+        this.toastr.success('Submitted succesfully', "Brand added")
       },
       err => {
         console.log(err);
@@ -38,12 +39,11 @@ export class CategoryDetailFormComponent implements OnInit {
   }
 
   updateRecord(form:NgForm){
-    this.service.putCategoryDetails().subscribe(
+    this.service.putBrandDetails().subscribe(
       res => {
         this.resetForm(form);
-        console.log("upd");
         this.service.refreshList();
-        this.toastr.info('Updated succesfully', "Category updated")
+        this.toastr.info('Updated succesfully', "Brand updated")
       },
       err => {
         console.log(err);
@@ -53,6 +53,6 @@ export class CategoryDetailFormComponent implements OnInit {
 
   resetForm(form:NgForm){
     form.form.reset();
-    this.service.formData = new CategoryDetail();
+    this.service.formData = new BrandDetail();
   }
 }

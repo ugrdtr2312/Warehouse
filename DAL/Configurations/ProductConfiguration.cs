@@ -26,7 +26,7 @@ namespace DAL.Configurations
                 .HasOne(p => p.Brand)
                 .WithMany(b => b.Products)
                 .HasForeignKey(p => p.BrandId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.SetNull);
             
             builder
                 .HasOne(p => p.Category)

@@ -9,7 +9,7 @@ export class CategoryDetailService {
 
   constructor(private http:HttpClient) { }
 
-  readonly baseURL = "http://localhost:5000/api/brands"
+  readonly baseURL = "http://localhost:5000/api/categories"
   formData:CategoryDetail = new CategoryDetail();
   list:CategoryDetail[];
 
@@ -17,8 +17,8 @@ export class CategoryDetailService {
     return this.http.post(this.baseURL, this.formData)
   }
  
-  patchCategoryDetails(){
-    return this.http.put(`${this.baseURL}/${this.formData.id}`, this.formData)
+  putCategoryDetails(){
+    return this.http.put(`${this.baseURL}`, this.formData)
   }
 
   deleteCategoryDetails(id:number){

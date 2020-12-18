@@ -1,8 +1,9 @@
+import { BrandDetail } from './../brand/brand-detail.model';
 import { Injectable } from '@angular/core';
 import { ProductDetail } from './product-detail.model';
 import { HttpClient } from "@angular/common/http"
-import { CategoryDetail } from './category-detail.model';
-import { BrandDetail } from './brand-detail.model';
+import { CategoryDetail } from '../category/category-detail.model';
+import { SupplierDetail } from '../supplier/supplier-detail.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +17,15 @@ export class ProductDetailService {
   list:ProductDetail[];
   categoryList:CategoryDetail[];
   brandList:BrandDetail[];
+  supplierList:SupplierDetail[];
 
   postProductDetails(){
+    console.log(this.formData);
     return this.http.post(this.baseURL, this.formData)
   }
  
-  patchProductDetails(){
-    return this.http.patch(`${this.baseURL}/${this.formData.id}`, this.formData)
+  putProductDetails(){
+    return this.http.put(`${this.baseURL}`, this.formData)
   }
 
   deleteProductDetails(id:number){
@@ -36,5 +39,7 @@ export class ProductDetailService {
     .then(res => this.categoryList = res as CategoryDetail[]);
     this.http.get("http://localhost:5000/api/brands").toPromise()
     .then(res => this.brandList = res as BrandDetail[]);
+    this.http.get("http://localhost:5000/api/suppliers").toPromise()
+    .then(res => this.supplierList = res as SupplierDetail[]);
   }
 }

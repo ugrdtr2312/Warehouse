@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using API.Infrastructure.Logging;
 using API.ViewModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -8,7 +9,7 @@ namespace API.Infrastructure
 {
     public static class ExceptionsMiddlewareExtensions
     {
-        public static void ConfigureExceptionHandler(this IApplicationBuilder app)
+        public static void ConfigureExceptionHandler(this IApplicationBuilder app, ILog logger)
         {
             app.UseExceptionHandler(appError =>
             {
@@ -20,6 +21,8 @@ namespace API.Infrastructure
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                     if (contextFeature != null)
                     {
+                        logger.Error($"Something went wrong: {contextFeature.Error}");  
+                        
                         await context.Response.WriteAsync(new ErrorDetails
                         {
                             StatusCode = context.Response.StatusCode,

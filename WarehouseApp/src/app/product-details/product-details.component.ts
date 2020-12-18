@@ -1,7 +1,7 @@
-import { ProductDetailService } from 'src/app/shared/product-detail.service';
 import { Component, OnInit } from '@angular/core';
-import { ProductDetail } from '../shared/product-detail.model';
 import { ToastrService } from 'ngx-toastr';
+import { ProductDetail } from '../shared/product/product-detail.model';
+import { ProductDetailService } from '../shared/product/product-detail.service';
 
 @Component({
   selector: 'app-product-details',

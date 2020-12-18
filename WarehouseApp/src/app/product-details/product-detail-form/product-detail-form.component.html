@@ -1,14 +1,36 @@
 <form novalidate #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
     <input type="hidden" name="productDetailId" [value]="service.formData.id">
     <div class="form-group">
-        <label>PRODUCT DESCRIPTION</label>
-        <input class="form-control form-control-lg" placeholder="Description" name="productName" #description="ngModel" [(ngModel)]="service.formData.productName" required maxlength="100" minlength="1">
+        <label>PRODUCT NAME</label>
+        <input class="form-control form-control-lg" placeholder="Product name..." name="productName" #description="ngModel" [(ngModel)]="service.formData.productName" required maxlength="100" minlength="1">
+    </div>
+    <div class="form-group">
+        <label>PRODUCT PRICE</label>
+        <input type="number" class="form-control form-control-lg" name="price" #description="ngModel" [(ngModel)]="service.formData.price" required min="0">
+    </div>
+    <div class="form-group">
+        <label>PRODUCT AMOUNT</label>
+        <input type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" class="form-control form-control-lg" name="amount" #description="ngModel" [(ngModel)]="service.formData.amount" required min="1" step="1">
     </div>
     <div class="form-group">
         <label>PRODUCT CATEGORY</label>
-        <select class="form-control form-control-lg" placeholder="Category" name="category.sel" #description="ngModel" [(ngModel)]="service.formData.categoryId" required>
-            <option>None</option>
+        <select class="form-control form-control-lg" name="category.sel" #description="ngModel" [(ngModel)]="service.formData.categoryId">
+            <option value='' selected>None</option>
             <option [ngValue]="pd.id" *ngFor="let pd of service.categoryList">{{pd.categoryName}}</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>PRODUCT BRAND</label>
+        <select class="form-control form-control-lg" name="brand.sel" #description="ngModel" [(ngModel)]="service.formData.brandId">
+            <option value='' selected>None</option>
+            <option [ngValue]="pd.id" *ngFor="let pd of service.brandList">{{pd.brandName}}</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>PRODUCT SUPPLIER</label>
+        <select class="form-control form-control-lg" name="supplier.sel" #description="ngModel" [(ngModel)]="service.formData.supplierId">
+            <option value='' selected>None</option>
+            <option [ngValue]="pd.id" *ngFor="let pd of service.supplierList">{{pd.companyName}}</option>
         </select>
     </div>
     <div class="form-group">

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { CategoryDetail } from '../shared/category-detail.model';
-import { CategoryDetailService } from '../shared/category-detail.service';
+import { CategoryDetail } from '../shared/category/category-detail.model';
+import { CategoryDetailService } from '../shared/category/category-detail.service';
 
 @Component({
   selector: 'app-category-details',

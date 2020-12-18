@@ -1,7 +1,7 @@
 using API.DependenciesResolvers;
 using API.Infrastructure;
+using API.Infrastructure.Logging;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,6 +25,7 @@ namespace API
             services.DalDependenciesResolver(Configuration);
             services.BllDependenciesResolver();
             services.AddSingleton(AutoMapperConfigure.CreateMapper());
+            services.AddSingleton<ILog, MyLogger>();
             
             services.SwaggerConfigure();
             
@@ -32,9 +33,9 @@ namespace API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, ILog logger)
         {
-            app.ConfigureExceptionHandler();
+            app.ConfigureExceptionHandler(logger);
             
             app.UseCors(options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
             

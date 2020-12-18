@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -41,6 +42,15 @@ namespace BLL.Services.Realizations
         public async Task<ProductDto> CreateAsync(ProductDto productDto)
         {
             var product = _mapper.Map<Product>(productDto);
+            
+            if(productDto.SupplierId != null && (await _uow.Suppliers.GetByIdAsync((int)productDto.SupplierId)) == null)
+                throw new DbQueryResultNullException("The supplier with current SupplierId doesn't exist");
+            
+            if(productDto.BrandId != null && (await _uow.Brands.GetByIdAsync((int)productDto.BrandId)) == null)
+                throw new DbQueryResultNullException("The supplier with brand BrandId doesn't exist");
+          
+            if(productDto.CategoryId != null && (await _uow.Categories.GetByIdAsync((int)productDto.CategoryId)) == null)
+                throw new DbQueryResultNullException("The supplier with current CategoryId doesn't exist");
             
             await _uow.Products.CreateAsync(product);
             if (!await _uow.SaveChangesAsync())

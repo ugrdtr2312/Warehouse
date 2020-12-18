@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { ProductDetail } from 'src/app/shared/product-detail.model';
-import { ProductDetailService } from 'src/app/shared/product-detail.service';
+import { ProductDetail } from 'src/app/shared/product/product-detail.model';
+import { ProductDetailService } from 'src/app/shared/product/product-detail.service';
 
 @Component({
   selector: 'app-product-detail-form',
@@ -39,7 +39,7 @@ export class ProductDetailFormComponent implements OnInit {
   }
 
   updateRecord(form:NgForm){
-    this.service.patchProductDetails().subscribe(
+    this.service.putProductDetails().subscribe(
       res => {
         this.resetForm(form);
         this.service.refreshList();

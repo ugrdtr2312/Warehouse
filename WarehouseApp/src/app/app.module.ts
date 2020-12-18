@@ -11,12 +11,16 @@ import { SortDirective } from './diretive/sort.directive';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { CategoryDetailFormComponent } from './category-details/category-detail-form/category-detail-form.component';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
+import { SupplierDetailFormComponent } from './supplier-details/supplier-detail-form/supplier-detail-form.component';
+import { BrandDetailFormComponent } from './brand-details/brand-detail-form/brand-detail-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductDetailFormComponent,
     CategoryDetailFormComponent,
+    SupplierDetailFormComponent,
+    BrandDetailFormComponent,
     SortDirective,
     routingComponents
   ],

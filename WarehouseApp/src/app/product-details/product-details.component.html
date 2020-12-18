@@ -20,7 +20,8 @@
                 <tr *ngFor="let pd of service.list | filter: descrip">
                     <td (click)="populateForm(pd)">{{pd.id}}</td>
                     <td (click)="populateForm(pd)">{{pd.productName}}</td>
-                    <td (click)="populateForm(pd)">{{pd.brandName}}</td>
+                    <td (click)="populateForm(pd)" *ngIf="pd.brandName == null">-</td>
+                    <td (click)="populateForm(pd)" *ngIf="pd.brandName != null">{{pd.brandName}}</td>
                     <td (click)="populateForm(pd)">{{pd.amount}}</td>
                     <td (click)="populateForm(pd)">{{pd.price}}</td>
                     <td>
