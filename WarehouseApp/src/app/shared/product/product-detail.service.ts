@@ -20,11 +20,24 @@ export class ProductDetailService {
   supplierList:SupplierDetail[];
 
   postProductDetails(){
-    console.log(this.formData);
+    if (this.formData.brandId == "null")
+    this.formData.brandId = null;
+    if (this.formData.categoryId == "null")
+    this.formData.categoryId = null;
+    if (this.formData.supplierId == "null")
+    this.formData.supplierId = null;
+
     return this.http.post(this.baseURL, this.formData)
   }
  
   putProductDetails(){
+    if (this.formData.brandId == "null")
+    this.formData.brandId = null;
+    if (this.formData.categoryId == "null")
+    this.formData.categoryId = null;
+    if (this.formData.supplierId == "null")
+    this.formData.supplierId = null;
+    
     return this.http.put(`${this.baseURL}`, this.formData)
   }
 
@@ -34,7 +47,13 @@ export class ProductDetailService {
 
   refreshList(){
     this.http.get(this.baseURL).toPromise()
-    .then(res => this.list = res as ProductDetail[]);
+    .then(res => { 
+      this.list = res as ProductDetail[];
+      this.list.forEach(element => {
+        if (element.brandName == null)
+          element.brandName = "-";
+      });  
+    });
     this.http.get("http://localhost:5000/api/categories").toPromise()
     .then(res => this.categoryList = res as CategoryDetail[]);
     this.http.get("http://localhost:5000/api/brands").toPromise()

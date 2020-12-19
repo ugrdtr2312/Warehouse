@@ -1,12 +1,12 @@
 export class ProductDetail {
     id: number=0;
     productName: string='';
-    amount: number = 0;
-    price: number = 0;
-    brandId?: number = 0; 
+    amount: number;
+    price: number;
+    brandId: any = null; 
     brandName: string='';
-    categoryId?: number = 0;
+    categoryId: any = null; 
     categoryName: string='';  
-    supplierId?: number = 0; 
+    supplierId: any = null; 
     supplierName: string=''; 
 }

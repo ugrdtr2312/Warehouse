@@ -2,21 +2,21 @@
     <input type="hidden" name="id" [value]="service.formData.id">
     <div class="form-group">
         <label>COMPANY NAME</label>
-        <input class="form-control form-control-lg" placeholder="Company name..." name="companyName" #description="ngModel" [(ngModel)]="service.formData.companyName" required maxlength="100" minlength="1" >
+        <input class="form-control form-control-lg" placeholder="Company name..." name="companyName" #companyName="ngModel" [(ngModel)]="service.formData.companyName" required maxlength="100" minlength="1" [class.invalid]="companyName.invalid && companyName.touched">
     </div>
     <div class="form-group">
         <label>MANAGER`S FIRST NAME</label>
-        <input class="form-control form-control-lg" placeholder="Manager`s first name..." name="firstName" #description="ngModel" [(ngModel)]="service.formData.firstName" required maxlength="50" minlength="1" >
+        <input class="form-control form-control-lg" placeholder="Manager`s first name..." name="firstName" #firstName="ngModel" [(ngModel)]="service.formData.firstName" required maxlength="50" minlength="1" [class.invalid]="firstName.invalid && firstName.touched">
     </div>
     <div class="form-group">
         <label>MANAGER`S SURNAME</label>
-        <input class="form-control form-control-lg" placeholder="Manager`s surname..." name="surname" #description="ngModel" [(ngModel)]="service.formData.surname" required maxlength="50" minlength="1" >
+        <input class="form-control form-control-lg" placeholder="Manager`s surname..." name="surname" #surname="ngModel" [(ngModel)]="service.formData.surname" required maxlength="50" minlength="1" [class.invalid]="surname.invalid && surname.touched">
     </div>
     <div class="form-group">
         <label>PHONE NUMBER</label>
-        <input class="form-control form-control-lg" placeholder="Phone number..." name="phoneNumber" #description="ngModel" [(ngModel)]="service.formData.phoneNumber" required maxlength="50" minlength="1" >
+        <input class="form-control form-control-lg" placeholder="Phone number..." name="phoneNumber" #phoneNumber="ngModel" [(ngModel)]="service.formData.phoneNumber" required maxlength="50" minlength="1" [class.invalid]="phoneNumber.invalid && phoneNumber.touched">
     </div>
     <div class="form-group">
-        <button type="submit" class="btn btn-info btn-lg btn-block" [disabled]="form.invalid">SUBMIT</button>
+        <button type="submit" class="btn btn-info btn-lg btn-block" [disabled]="form.invalid || (companyName.pristine && firstName.pristine && surname.pristine && phoneNumber.pristine)">SUBMIT</button>
     </div>
 </form>

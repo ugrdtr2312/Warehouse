@@ -32,7 +32,6 @@ export class ProductDetailFormComponent implements OnInit {
         this.toastr.success('Submitted succesfully', "Product added")
       },
       err => {
-        console.log(form)
         console.log(err);
       }
     );

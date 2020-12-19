@@ -41,7 +41,6 @@ export class CategoryDetailFormComponent implements OnInit {
     this.service.putCategoryDetails().subscribe(
       res => {
         this.resetForm(form);
-        console.log("upd");
         this.service.refreshList();
         this.toastr.info('Updated succesfully', "Category updated")
       },

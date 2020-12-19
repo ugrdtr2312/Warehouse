@@ -1,15 +1,15 @@
 <div class="jumbotron py-3">
-  <h1 class="display-4 text-center">Product Detail</h1>
+  <h1 class="display-4 text-center">Products</h1>
 </div>
 
 <div class="row">
     <div class="col-md-8">
-        <input type="search" class="form-control form-control-lg" placeholder="Search..."  [(ngModel)]=descrip><br>
+        <input type="search" class="form-control form-control-lg" placeholder="Search..."  [(ngModel)]=serach><br>
         <table class="table">
             <thead class="thead-light"> 
                 <tr>
                     <th scope="col" [appSort]="service.list" data-order="desc" data-name="id">Id</th>
-                    <th scope="col" [appSort]="service.list" data-order="desc" data-name="productName">Description</th>
+                    <th scope="col" [appSort]="service.list" data-order="desc" data-name="productName">Product name</th>
                     <th scope="col" [appSort]="service.list" data-order="desc" data-name="brandName">Brand</th>
                     <th scope="col" [appSort]="service.list" data-order="desc" data-name="amount">Amount</th>
                     <th scope="col" [appSort]="service.list" data-order="desc" data-name="price">Price</th>
@@ -17,11 +17,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let pd of service.list | filter: descrip">
+                <tr *ngFor="let pd of service.list | filter: serach">
                     <td (click)="populateForm(pd)">{{pd.id}}</td>
                     <td (click)="populateForm(pd)">{{pd.productName}}</td>
-                    <td (click)="populateForm(pd)" *ngIf="pd.brandName == null">-</td>
-                    <td (click)="populateForm(pd)" *ngIf="pd.brandName != null">{{pd.brandName}}</td>
+                    <td (click)="populateForm(pd)">{{pd.brandName}}</td>
                     <td (click)="populateForm(pd)">{{pd.amount}}</td>
                     <td (click)="populateForm(pd)">{{pd.price}}</td>
                     <td>

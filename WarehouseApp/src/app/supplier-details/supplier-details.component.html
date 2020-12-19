@@ -1,22 +1,25 @@
 <div class="jumbotron py-3">
-  <h1 class="display-4 text-center">Supplier Details</h1>
+  <h1 class="display-4 text-center">Suppliers</h1>
 </div>
 <div class="row">
     <div class="col-md-8">
-        <input type="search" class="form-control form-control-lg" placeholder="Search..."  [(ngModel)]=cName><br>
+        <input type="search" class="form-control form-control-lg" placeholder="Search..."  [(ngModel)]=serach><br>
         <table class="table">
             <thead class="thead-light"> 
                 <tr>
                     <th scope="col" [appSort]="service.list" data-order="desc" data-name="id">Id</th>
                     <th scope="col" [appSort]="service.list" data-order="desc" data-name="companyName">Company name</th>
-                    <th scope="col"></th>
+                    <th scope="col" [appSort]="service.list" data-order="desc" data-name="surname">Surname</th>
+                    <th scope="col" [appSort]="service.list" data-order="desc" data-name="firstName">First name</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let sp of service.list | filter: cName">
+                <tr *ngFor="let sp of service.list | filter: serach">
                     <td (click)="populateForm(sp)">{{sp.id}}</td>
                     <td (click)="populateForm(sp)">{{sp.companyName}}</td>
+                    <td (click)="populateForm(sp)">{{sp.surname}}</td>
+                    <td (click)="populateForm(sp)">{{sp.firstName}}</td>
                     <td>
                         <i class="far fa-trash-alt fa-lg text-danger" (click)="onDelete(sp.id)"></i>
                     </td>

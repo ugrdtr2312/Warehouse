@@ -2,9 +2,10 @@
     <input type="hidden" name="id" [value]="service.formData.id">
     <div class="form-group">
         <label>BRAND NAME</label>
-        <input class="form-control form-control-lg" placeholder="Brand name..." name="brandName" #description="ngModel" [(ngModel)]="service.formData.brandName" required maxlength="100" minlength="1" >
+        <input class="form-control form-control-lg" placeholder="Brand name..." name="brandName" #brandName="ngModel" [(ngModel)]="service.formData.brandName" 
+        required maxlength="50" minlength="1" [class.invalid]="brandName.invalid && brandName.touched">
     </div>
     <div class="form-group">
-        <button type="submit" class="btn btn-info btn-lg btn-block" [disabled]="form.invalid">SUBMIT</button>
+        <button type="submit" class="btn btn-info btn-lg btn-block" [disabled]="form.invalid || brandName.pristine">SUBMIT</button>
     </div>
 </form>

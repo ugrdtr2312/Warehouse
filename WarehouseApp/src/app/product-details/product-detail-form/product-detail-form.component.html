@@ -2,38 +2,38 @@
     <input type="hidden" name="productDetailId" [value]="service.formData.id">
     <div class="form-group">
         <label>PRODUCT NAME</label>
-        <input class="form-control form-control-lg" placeholder="Product name..." name="productName" #description="ngModel" [(ngModel)]="service.formData.productName" required maxlength="100" minlength="1">
+        <input class="form-control form-control-lg" placeholder="Product name..." name="productName" #productName="ngModel" [(ngModel)]="service.formData.productName" required maxlength="50" minlength="1" [class.invalid]="productName.invalid && productName.touched">
     </div>
     <div class="form-group">
         <label>PRODUCT PRICE</label>
-        <input type="number" class="form-control form-control-lg" name="price" #description="ngModel" [(ngModel)]="service.formData.price" required min="0">
+        <input type="number" pattern="([0-9]+\.)?[0-9]+" class="form-control form-control-lg" name="price" #price="ngModel" [(ngModel)]="service.formData.price" required [class.invalid]="price.invalid && price.touched">
     </div>
     <div class="form-group">
         <label>PRODUCT AMOUNT</label>
-        <input type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" class="form-control form-control-lg" name="amount" #description="ngModel" [(ngModel)]="service.formData.amount" required min="1" step="1">
+        <input type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" class="form-control form-control-lg" name="amount" #amount="ngModel" [(ngModel)]="service.formData.amount" required pattern="([0-9]+\.)?[0-9]+" [class.invalid]="amount.invalid && amount.touched">
     </div>
     <div class="form-group">
         <label>PRODUCT CATEGORY</label>
-        <select class="form-control form-control-lg" name="category.sel" #description="ngModel" [(ngModel)]="service.formData.categoryId">
-            <option value='' selected>None</option>
-            <option [ngValue]="pd.id" *ngFor="let pd of service.categoryList">{{pd.categoryName}}</option>
+        <select class="form-control form-control-lg" name="categorySel" #categorySel="ngModel" [(ngModel)]="service.formData.categoryId" [class.invalid]="categorySel.invalid && categorySel.touched">
+            <option value=null selected>None</option>
+            <option [ngValue]="ctg.id" *ngFor="let ctg of service.categoryList">{{ctg.categoryName}}</option>
         </select>
     </div>
     <div class="form-group">
         <label>PRODUCT BRAND</label>
-        <select class="form-control form-control-lg" name="brand.sel" #description="ngModel" [(ngModel)]="service.formData.brandId">
-            <option value='' selected>None</option>
-            <option [ngValue]="pd.id" *ngFor="let pd of service.brandList">{{pd.brandName}}</option>
+        <select class="form-control form-control-lg" name="brandSel" #brandSel="ngModel" [(ngModel)]="service.formData.brandId" [class.invalid]="brandSel.invalid && brandSel.touched">
+            <option value=null selected>None</option>
+            <option [ngValue]="bd.id" *ngFor="let bd of service.brandList">{{bd.brandName}}</option>
         </select>
     </div>
     <div class="form-group">
         <label>PRODUCT SUPPLIER</label>
-        <select class="form-control form-control-lg" name="supplier.sel" #description="ngModel" [(ngModel)]="service.formData.supplierId">
-            <option value='' selected>None</option>
-            <option [ngValue]="pd.id" *ngFor="let pd of service.supplierList">{{pd.companyName}}</option>
+        <select class="form-control form-control-lg" name="supplierSel" #supplierSel="ngModel" [(ngModel)]="service.formData.supplierId" [class.invalid]="supplierSel.invalid && supplierSel.touched">
+            <option value=null selected>None</option>
+            <option [ngValue]="spl.id" *ngFor="let spl of service.supplierList">{{spl.companyName}}</option>
         </select>
     </div>
     <div class="form-group">
-        <button type="submit" class="btn btn-info btn-lg btn-block" [disabled]="form.invalid">SUBMIT</button>
+        <button type="submit" class="btn btn-info btn-lg btn-block" [disabled]="form.invalid || (productName.pristine && price.pristine && amount.pristine && categorySel.pristine && brandSel.pristine && supplierSel.pristine)">SUBMIT</button>
     </div>
 </form>

@@ -10,12 +10,12 @@ import { CategoryDetailService } from '../shared/category/category-detail.servic
   ]
 })
 export class CategoryDetailsComponent implements OnInit {
-  categoryName:string;
+  serach:string;
   constructor(public service:CategoryDetailService, private toastr:ToastrService) { }
 
   ngOnInit(): void {
     this.service.refreshList();
-    this.categoryName ='';
+    this.serach ='';
   }
 
   populateForm(selectedRecord:CategoryDetail){
@@ -29,9 +29,12 @@ export class CategoryDetailsComponent implements OnInit {
       .subscribe(
        res=>{
          this.service.refreshList();
+         this.service.formData = new CategoryDetail();
          this.toastr.error("Deleted successfully", "Category deleted")
        },
-       err => {console.log(err)}
+       err => {
+         console.log(err);
+      }
       )
     }
   }

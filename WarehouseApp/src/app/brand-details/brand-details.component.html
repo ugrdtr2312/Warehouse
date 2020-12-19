@@ -1,19 +1,19 @@
 <div class="jumbotron py-3">
-  <h1 class="display-4 text-center">Brand details</h1>
+  <h1 class="display-4 text-center">Brands</h1>
 </div>
 <div class="row">
     <div class="col-md-8">
-        <input type="search" class="form-control form-control-lg" placeholder="Search..."  [(ngModel)]=bName><br>
+        <input type="search" class="form-control form-control-lg" placeholder="Search..."  [(ngModel)]=serach><br>
         <table class="table">
             <thead class="thead-light"> 
                 <tr>
                     <th scope="col" [appSort]="service.list" data-order="desc" data-name="id">Id</th>
-                    <th scope="col" [appSort]="service.list" data-order="desc" data-name="brandName">Category Name</th>
+                    <th scope="col" [appSort]="service.list" data-order="desc" data-name="brandName">Brand name</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let bnd of service.list | filter: bName">
+                <tr *ngFor="let bnd of service.list | filter: serach">
                     <td (click)="populateForm(bnd)">{{bnd.id}}</td>
                     <td (click)="populateForm(bnd)">{{bnd.brandName}}</td>
                     <td>

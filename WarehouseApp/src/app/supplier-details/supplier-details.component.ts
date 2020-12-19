@@ -10,12 +10,12 @@ import { SupplierDetailService } from '../shared/supplier/supplier-detail.servic
   ]
 })
 export class SupplierDetailsComponent implements OnInit {
-  cName:string;
+  serach:string;
   constructor(public service:SupplierDetailService, private toastr:ToastrService) { }
 
   ngOnInit(): void {
     this.service.refreshList();
-    this.cName ='';
+    this.serach ='';
   }
 
   populateForm(selectedRecord:SupplierDetail){
@@ -29,10 +29,11 @@ export class SupplierDetailsComponent implements OnInit {
       .subscribe(
        res=>{
          this.service.refreshList();
+         this.service.formData = new SupplierDetail();
          this.toastr.error("Deleted successfully", "Supplier deleted");
        },
        err => {
-         this.toastr.warning(err);
+        console.log(err);
         }
       )
     }

@@ -32,7 +32,7 @@ export class SupplierDetailFormComponent implements OnInit {
         this.toastr.success('Submitted succesfully', "Supplier added")
       },
       err => {
-        this.toastr.warning(err);
+        console.log(err);
       }
     );
   }
@@ -45,7 +45,7 @@ export class SupplierDetailFormComponent implements OnInit {
         this.toastr.info('Updated succesfully', "Supplier updated")
       },
       err => {
-        this.toastr.warning(err);
+        console.log(err);
       }
     );
   }
